@@ -10,7 +10,7 @@ CSV_FILE = os.path.join(
     "..",
     "results",
     "raw",
-    "E06_REPEATED_NOMINAL.csv"
+    "E08_HIGH_IPC.csv"
 )
 
 OUTPUT_DIR = os.path.join(
@@ -22,7 +22,7 @@ OUTPUT_DIR = os.path.join(
 
 OUTPUT_FILE = os.path.join(
     OUTPUT_DIR,
-    "E06_STATISTICAL_SUMMARY.csv"
+    "E08_HIGH_IPC_STATISTICAL_SUMMARY.csv"
 )
 
 
