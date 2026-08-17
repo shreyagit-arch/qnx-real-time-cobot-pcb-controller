@@ -1,0 +1,5 @@
+metric,samples,mean_us,minimum_us,maximum_us,jitter_us,std_dev_us,deadline_us,deadline_misses,deadline_miss_rate_percent
+VISION,40,11282.7,0.0,24434.0,24434.0,11442.05,50000,0,0.0
+IPC,40,2061.47,0.0,6682.0,6682.0,2291.68,5000,7,17.5
+CONTROL,40,1135.55,0.0,11361.0,11361.0,2046.11,80000,0,0.0
+END_TO_END,40,16361.1,0.0,47557.0,47557.0,16881.85,150000,0,0.0

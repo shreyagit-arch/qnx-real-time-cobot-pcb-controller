@@ -1,0 +1,2 @@
+timestamp,experiment,trial,vision_workload,ipc_workload,control_workload,vision_us,ipc_us,control_us,end_to_end_us,vision_status,ipc_status,control_status,end_to_end_status,fault,robot_state,safety_latch
+2026-08-12T09:05:10.027419,E05_PRIORITY_BASELINE,1,NORMAL,NORMAL,NORMAL,21028,2732,2054,28892,MET,MET,MET,MET,NONE,READY,False
