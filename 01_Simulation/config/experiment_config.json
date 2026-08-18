@@ -5,13 +5,11 @@
     "control_us": 80000,
     "end_to_end_us": 150000
   },
-
   "workload": {
     "vision": "NORMAL",
-    "ipc": "HIGH",
-    "control": "NORMAL"
+    "ipc": "NORMAL",
+    "control": "HIGH"
   },
-
   "workload_delays_us": {
     "vision": {
       "NORMAL": 20000,
@@ -26,15 +24,13 @@
       "HIGH": 70000
     }
   },
-
   "fault_injection": {
     "enabled": false,
     "type": "NONE",
     "delay_us": 0
   },
-
   "experiment": {
-    "name": "E10_COMMUNICATION_DELAY",
+    "name": "E11_HIGH_CONTROL",
     "trials": 10
   }
 }
