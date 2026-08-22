@@ -7,8 +7,8 @@
   },
   "workload": {
     "vision": "NORMAL",
-    "ipc": "HIGH",
-    "control": "NORMAL"
+    "ipc": "NORMAL",
+    "control": "HIGH"
   },
   "workload_delays_us": {
     "vision": {
@@ -21,7 +21,7 @@
     },
     "control": {
       "NORMAL": 1000,
-      "HIGH": 70000
+      "HIGH": 90000
     }
   },
   "fault_injection": {
@@ -30,7 +30,7 @@
     "delay_us": 0
   },
   "experiment": {
-    "name": "E14_IPC_DEADLINE_FAILURE",
+    "name": "E15_CONTROL_DEADLINE_FAILURE",
     "trials": 10
   },
   "inspection": {
