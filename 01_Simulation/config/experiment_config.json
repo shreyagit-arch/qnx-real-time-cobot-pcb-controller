@@ -6,14 +6,14 @@
     "end_to_end_us": 150000
   },
   "workload": {
-    "vision": "NORMAL",
+    "vision": "HIGH",
     "ipc": "NORMAL",
     "control": "NORMAL"
   },
   "workload_delays_us": {
     "vision": {
       "NORMAL": 20000,
-      "HIGH": 45000
+      "HIGH": 60000
     },
     "ipc": {
       "NORMAL": 2000,
@@ -30,10 +30,10 @@
     "delay_us": 0
   },
   "experiment": {
-    "name": "E12_INSPECTION_FAILURE",
+    "name": "E13_VISION_DEADLINE_FAILURE",
     "trials": 10
   },
   "inspection": {
-    "result": "FAIL"
+    "result": "PASS"
   }
 }
