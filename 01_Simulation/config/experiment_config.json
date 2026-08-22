@@ -30,7 +30,7 @@
     "delay_us": 0
   },
   "experiment": {
-    "name": "E17_ALL_HIGH_LOAD",
+    "name": "E18_SUSTAINED_ALL_HIGH_LOAD",
     "trials": 10
   },
   "inspection": {
