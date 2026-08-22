@@ -19,4 +19,4 @@ def run_vision(workload="NORMAL", config=None):
 
     elapsed_us = (end - start) / 1000
 
-    return "PASS"
+    return config.get("inspection", {}).get("result", "PASS")

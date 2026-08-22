@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from datetime import datetime
+import csv
 
 from vision import run_vision
 from ipc import send_message
@@ -16,6 +16,7 @@ from safety_manager import SafetyManager
 # ============================================================
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 CONFIG_FILE = os.path.join(
     BASE_DIR,
     "config",
@@ -140,6 +141,76 @@ def run_experiment(trial_number=1):
 
 
     # ========================================================
+    # INSPECTION FAILURE HANDLING
+    # ========================================================
+
+    if vision_result != "PASS":
+
+        fault_manager.report_fault(
+            "INSPECTION_FAILURE"
+        )
+
+        safety_manager.request_stop(
+            robot
+        )
+
+        end_e2e = time.perf_counter_ns()
+
+        e2e_time_us = (
+            end_e2e - start_e2e
+        ) / 1000
+
+        e2e_status = (
+            e2e_time_us <= E2E_DEADLINE
+        )
+
+        print(
+            "INSPECTION FAILURE : "
+            "ROBOT STOP REQUESTED"
+        )
+
+        print(
+            f"END-TO-END TIMING : "
+            f"{e2e_time_us:.0f} us | "
+            f"DEADLINE = {E2E_DEADLINE} us | "
+            f"{'MET' if e2e_status else 'MISS'}"
+        )
+
+        print(
+            f"ROBOT : FINAL STATE = "
+            f"{robot.state}"
+        )
+
+        return {
+            "experiment": EXPERIMENT_NAME,
+            "trial": trial_number,
+
+            "vision_us":
+                round(vision_time_us),
+
+            "ipc_us": 0,
+
+            "control_us": 0,
+
+            "end_to_end_us":
+                round(e2e_time_us),
+
+            "vision_deadline_miss":
+                int(not vision_status),
+
+            "ipc_deadline_miss": 0,
+
+            "control_deadline_miss": 0,
+
+            "end_to_end_deadline_miss":
+                int(not e2e_status),
+
+            "robot_state":
+                robot.state
+        }
+
+
+    # ========================================================
     # VISION DEADLINE FAULT
     # ========================================================
 
@@ -178,10 +249,16 @@ def run_experiment(trial_number=1):
         return {
             "experiment": EXPERIMENT_NAME,
             "trial": trial_number,
-            "vision_us": round(vision_time_us),
+
+            "vision_us":
+                round(vision_time_us),
+
             "ipc_us": 0,
+
             "control_us": 0,
-            "end_to_end_us": round(e2e_time_us),
+
+            "end_to_end_us":
+                round(e2e_time_us),
 
             "vision_deadline_miss":
                 int(not vision_status),
@@ -193,7 +270,8 @@ def run_experiment(trial_number=1):
             "end_to_end_deadline_miss":
                 int(not e2e_status),
 
-            "robot_state": robot.state
+            "robot_state":
+                robot.state
         }
 
 
@@ -218,11 +296,6 @@ def run_experiment(trial_number=1):
     ipc_time_us = (
         ipc_end - ipc_start
     ) / 1000
-
-    # --------------------------------------------------------
-    # IMPORTANT:
-    # Use actual measured IPC time
-    # --------------------------------------------------------
 
     ipc_status = (
         ipc_time_us <= IPC_DEADLINE
@@ -274,10 +347,17 @@ def run_experiment(trial_number=1):
         return {
             "experiment": EXPERIMENT_NAME,
             "trial": trial_number,
-            "vision_us": round(vision_time_us),
-            "ipc_us": round(ipc_time_us),
+
+            "vision_us":
+                round(vision_time_us),
+
+            "ipc_us":
+                round(ipc_time_us),
+
             "control_us": 0,
-            "end_to_end_us": round(e2e_time_us),
+
+            "end_to_end_us":
+                round(e2e_time_us),
 
             "vision_deadline_miss":
                 int(not vision_status),
@@ -290,7 +370,8 @@ def run_experiment(trial_number=1):
             "end_to_end_deadline_miss":
                 int(not e2e_status),
 
-            "robot_state": robot.state
+            "robot_state":
+                robot.state
         }
 
 
@@ -313,9 +394,9 @@ def run_experiment(trial_number=1):
     control_start = time.perf_counter_ns()
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # CONTROL FAULT INJECTION
-    # --------------------------------------------------------
+    # ========================================================
 
     if (
         FAULT_ENABLED
@@ -332,9 +413,9 @@ def run_experiment(trial_number=1):
         )
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # RUN CONTROL
-    # --------------------------------------------------------
+    # ========================================================
 
     control_result = run_control(
         message,
@@ -475,8 +556,6 @@ def save_results(results):
         filename
     )
 
-    import csv
-
     file_exists = os.path.exists(
         filepath
     )
@@ -531,6 +610,7 @@ if __name__ == "__main__":
 
     robot.state = "READY"
     robot.safety_latch = False
+
 
     # --------------------------------------------------------
     # AUTOMATED EXPERIMENT

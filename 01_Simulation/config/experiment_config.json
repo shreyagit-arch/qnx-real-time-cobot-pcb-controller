@@ -8,7 +8,7 @@
   "workload": {
     "vision": "NORMAL",
     "ipc": "NORMAL",
-    "control": "HIGH"
+    "control": "NORMAL"
   },
   "workload_delays_us": {
     "vision": {
@@ -30,7 +30,10 @@
     "delay_us": 0
   },
   "experiment": {
-    "name": "E11_HIGH_CONTROL",
+    "name": "E12_INSPECTION_FAILURE",
     "trials": 10
+  },
+  "inspection": {
+    "result": "FAIL"
   }
 }
