@@ -7,8 +7,8 @@
     },
     "workload": {
         "vision": "NORMAL",
-        "ipc": "NORMAL",
-        "control": "HIGH"
+        "ipc": "HIGH",
+        "control": "NORMAL"
     },
     "workload_delays_us": {
         "vision": {
@@ -30,7 +30,7 @@
         "delay_us": 0
     },
     "experiment": {
-        "name": "E20_CONTROL_DEADLINE_VIOLATION",
+        "name": "E21_IPC_DEADLINE_VIOLATION",
         "trials": 10
     },
     "inspection": {
