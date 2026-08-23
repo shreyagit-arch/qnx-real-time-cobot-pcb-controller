@@ -1,39 +1,39 @@
 {
-  "deadlines": {
-    "vision_us": 50000,
-    "ipc_us": 5000,
-    "control_us": 80000,
-    "end_to_end_us": 150000
-  },
-  "workload": {
-    "vision": "NORMAL",
-    "ipc": "NORMAL",
-    "control": "HIGH"
-  },
-  "workload_delays_us": {
-    "vision": {
-      "NORMAL": 20000,
-      "HIGH": 45000
+    "deadlines": {
+        "vision_us": 50000,
+        "ipc_us": 5000,
+        "control_us": 80000,
+        "end_to_end_us": 150000
     },
-    "ipc": {
-      "NORMAL": 2000,
-      "HIGH": 6000
+    "workload": {
+        "vision": "NORMAL",
+        "ipc": "NORMAL",
+        "control": "HIGH"
     },
-    "control": {
-      "NORMAL": 1000,
-      "HIGH": 90000
+    "workload_delays_us": {
+        "vision": {
+            "NORMAL": 20000,
+            "HIGH": 45000
+        },
+        "ipc": {
+            "NORMAL": 2000,
+            "HIGH": 6000
+        },
+        "control": {
+            "NORMAL": 1000,
+            "HIGH": 90000
+        }
+    },
+    "fault_injection": {
+        "enabled": false,
+        "type": "NONE",
+        "delay_us": 0
+    },
+    "experiment": {
+        "name": "E20_CONTROL_DEADLINE_VIOLATION",
+        "trials": 10
+    },
+    "inspection": {
+        "result": "PASS"
     }
-  },
-  "fault_injection": {
-    "enabled": false,
-    "type": "NONE",
-    "delay_us": 0
-  },
-  "experiment": {
-    "name": "E19_CONTROL_RECOVERY_TEST",
-    "trials": 10
-  },
-  "inspection": {
-    "result": "PASS"
-  }
 }
