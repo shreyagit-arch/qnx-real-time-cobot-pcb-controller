@@ -30,7 +30,7 @@
         "delay_us": 0
     },
     "experiment": {
-        "name": "E22_SAFETY_LATCH_BEHAVIOR",
+        "name": "E23_RECOVERY_RESET",
         "trials": 10
     },
     "inspection": {
