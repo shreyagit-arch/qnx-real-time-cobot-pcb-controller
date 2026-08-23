@@ -30,7 +30,7 @@
         "delay_us": 0
     },
     "experiment": {
-        "name": "E23_RECOVERY_RESET",
+        "name": "E24_FAULT_RECOVERY_REPEAT",
         "trials": 10
     },
     "inspection": {
