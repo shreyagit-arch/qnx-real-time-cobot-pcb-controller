@@ -7,7 +7,7 @@
     },
     "workload": {
         "vision": "NORMAL",
-        "ipc": "HIGH",
+        "ipc": "NORMAL",
         "control": "NORMAL"
     },
     "workload_delays_us": {
@@ -30,7 +30,7 @@
         "delay_us": 0
     },
     "experiment": {
-        "name": "E21_IPC_DEADLINE_VIOLATION",
+        "name": "E22_SAFETY_LATCH_BEHAVIOR",
         "trials": 10
     },
     "inspection": {
