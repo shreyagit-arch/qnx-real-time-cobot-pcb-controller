@@ -1,0 +1,5 @@
+experiment,metric,samples,mean_us,minimum_us,maximum_us,jitter_us,std_dev_us,deadline_us,deadline_misses,deadline_miss_rate_percent
+E05_PRIORITY_BASELINE,VISION,1,21028.0,21028.0,21028.0,0.0,0,50000,0,0.0
+E05_PRIORITY_BASELINE,IPC,1,2732.0,2732.0,2732.0,0.0,0,5000,0,0.0
+E05_PRIORITY_BASELINE,CONTROL,1,2054.0,2054.0,2054.0,0.0,0,80000,0,0.0
+E05_PRIORITY_BASELINE,END_TO_END,1,28892.0,28892.0,28892.0,0.0,0,150000,0,0.0

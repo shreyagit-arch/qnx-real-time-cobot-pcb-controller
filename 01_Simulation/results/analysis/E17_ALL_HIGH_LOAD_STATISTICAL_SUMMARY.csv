@@ -1,0 +1,5 @@
+experiment,metric,samples,mean_us,minimum_us,maximum_us,jitter_us,std_dev_us,deadline_us,deadline_misses,deadline_miss_rate_percent
+E17_ALL_HIGH_LOAD,VISION,10,45834.7,45527.0,46395.0,868.0,272.75,50000,0,0.0
+E17_ALL_HIGH_LOAD,IPC,10,7354.4,6723.0,8055.0,1332.0,459.24,5000,10,100.0
+E17_ALL_HIGH_LOAD,CONTROL,10,0.0,0.0,0.0,0.0,0.0,80000,0,0.0
+E17_ALL_HIGH_LOAD,END_TO_END,10,56491.9,55041.0,57936.0,2895.0,804.89,150000,0,0.0
