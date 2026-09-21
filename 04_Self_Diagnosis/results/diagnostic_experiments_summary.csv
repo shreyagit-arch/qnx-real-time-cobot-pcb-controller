@@ -1,0 +1,7 @@
+experiment_id,injected_fault_domain,trials,correct_detections,failed_detections,detection_rate_percent,mean_diagnostic_latency_us,minimum_diagnostic_latency_us,maximum_diagnostic_latency_us,latency_range_jitter_us,latency_std_dev_us,expected_system_state,observed_system_state
+D01_NORMAL,NONE,10,10,0,100.0,36.17,16.5,68.0,51.5,19.971,NORMAL,NORMAL
+D02_THERMAL_FAULT,THERMAL,10,10,0,100.0,39.43,11.7,149.4,137.7,47.701,SAFE_MODE,SAFE_MODE
+D03_SENSOR_NOISE,SENSOR,10,10,0,100.0,16.9,8.6,41.8,33.2,12.339,DEGRADED,DEGRADED
+D04_POWER_ANOMALY,POWER,10,10,0,100.0,19.97,12.2,29.6,17.4,6.316,SAFE_MODE,SAFE_MODE
+D05_COMM_FAILURE,COMMUNICATION,10,10,0,100.0,18.18,9.4,65.3,55.9,16.931,SAFE_MODE,SAFE_MODE
+D06_TIMING_FAULT,TIMING,10,10,0,100.0,14.22,9.8,25.7,15.9,5.298,SAFE_MODE,SAFE_MODE

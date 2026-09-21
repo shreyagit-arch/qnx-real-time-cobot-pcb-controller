@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        BAILEY-RT | QNX PCB Inspection Digital Twin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="top-header">
+
+        <div class="brand-area">
+
+            <div class="brand-mark">
+                BR
+            </div>
+
+            <div>
+
+                <h1>
+                    BAILEY-RT
+                </h1>
+
+                <p>
+                    Self-Diagnosing Supervisory System for a
+                    QNX-Based PCB Robotic Controller
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <div class="system-health-box">
+
+                <span class="health-dot"></span>
+
+                <div>
+
+                    <small>
+                        SYSTEM STATUS
+                    </small>
+
+                    <strong id="overall-status">
+                        HEALTHY
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="research-badge">
+                RESEARCH PROTOTYPE
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         SYSTEM STATUS STRIP
+    ====================================================== -->
+
+    <section class="status-strip">
+
+        <div class="status-item">
+            <span>OPERATING MODE</span>
+            <strong id="system-state">NORMAL</strong>
+        </div>
+
+        <div class="status-item">
+            <span>ROBOT STATE</span>
+            <strong id="robot-state">READY</strong>
+        </div>
+
+        <div class="status-item">
+            <span>DETECTED DOMAIN</span>
+            <strong id="fault-domain">NONE</strong>
+        </div>
+
+        <div class="status-item">
+            <span>SEVERITY</span>
+            <strong id="severity">INFO</strong>
+        </div>
+
+        <div class="status-item">
+            <span>SELECTED ACTION</span>
+            <strong id="action">LOG</strong>
+        </div>
+
+        <div class="status-item">
+            <span>SAFETY LATCH</span>
+            <strong id="safety-latch">CLEAR</strong>
+        </div>
+
+        <div class="status-item">
+            <span>ROBOT COMMANDS</span>
+            <strong id="command-status">ENABLED</strong>
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         01 SYSTEM OVERVIEW
+    ====================================================== -->
+
+    <section class="panel overview-panel">
+
+        <div class="section-number">
+            01
+        </div>
+
+
+        <div class="overview-copy">
+
+            <span class="eyebrow">
+                SYSTEM OVERVIEW
+            </span>
+
+            <h2>
+                Vision-Based PCB Inspection with
+                Real-Time QNX Control
+            </h2>
+
+            <p>
+                The prototype combines a vision-based PCB
+                inspection pipeline with a real-time control
+                architecture and an independent self-diagnostic
+                supervisory layer.
+            </p>
+
+        </div>
+
+
+        <div class="overview-cards">
+
+
+            <!-- PRODUCT CONDITION -->
+
+            <article class="overview-card">
+
+                <div class="overview-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <span>
+                        PRODUCT CONDITION
+                    </span>
+
+                    <h3>
+                        Vision Inspection
+                    </h3>
+
+                    <p>
+                        Determines whether the inspected
+                        PCB/workpiece satisfies the expected
+                        condition.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- DEVICE CONDITION -->
+
+            <article class="overview-card">
+
+                <div class="overview-icon">
+                    ∿
+                </div>
+
+                <div>
+
+                    <span>
+                        DEVICE CONDITION
+                    </span>
+
+                    <h3>
+                        BAILEY-RT Health Supervision
+                    </h3>
+
+                    <p>
+                        Continuously evaluates whether the
+                        controller and monitored operational
+                        domains remain healthy.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         02 APPLICATION LAYER
+    ====================================================== -->
+
+    <section class="panel application-panel">
+
+        <div class="section-heading">
+
+            <div class="section-title-wrap">
+
+                <span class="section-number-inline">
+                    02
+                </span>
+
+                <div>
+
+                    <span class="eyebrow">
+                        APPLICATION LAYER
+                    </span>
+
+                    <h2>
+                        QNX PCB Inspection Digital Twin
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <span class="panel-badge">
+                SOFTWARE REPRESENTATION
+            </span>
+
+        </div>
+
+
+
+        <!-- =================================================
+             APPLICATION ARCHITECTURE
+        ================================================== -->
+
+        <div class="architecture-flow">
+
+            <div class="architecture-node">
+
+                <span>01</span>
+
+                <strong>
+                    PCB / WORKPIECE
+                </strong>
+
+                <small>
+                    Inspection input
+                </small>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="architecture-node">
+
+                <span>02</span>
+
+                <strong>
+                    VISION TASK
+                </strong>
+
+                <small>
+                    Inspect condition
+                </small>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="architecture-node">
+
+                <span>03</span>
+
+                <strong>
+                    QNX IPC
+                </strong>
+
+                <small>
+                    Transfer result
+                </small>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="architecture-node">
+
+                <span>04</span>
+
+                <strong>
+                    CONTROL TASK
+                </strong>
+
+                <small>
+                    Real-time decision
+                </small>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="architecture-node">
+
+                <span>05</span>
+
+                <strong>
+                    ROBOT I/F
+                </strong>
+
+                <small>
+                    Command execution
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DIGITAL TWIN
+        ================================================== -->
+
+        <div class="digital-twin-grid">
+
+
+            <!-- A: INSPECTION INPUT -->
+
+            <article class="twin-stage">
+
+                <div class="stage-heading">
+
+                    <span class="stage-letter">
+                        A
+                    </span>
+
+                    <strong>
+                        INSPECTION INPUT
+                    </strong>
+
+                </div>
+
+
+                <div class="stage-body pcb-stage">
+
+                    <div class="pcb-board">
+
+                        <span class="pcb-chip chip-a"></span>
+                        <span class="pcb-chip chip-b"></span>
+                        <span class="pcb-chip chip-c"></span>
+                        <span class="pcb-chip chip-d"></span>
+
+                        <span class="pcb-trace trace-h"></span>
+                        <span class="pcb-trace trace-v"></span>
+
+                        <div class="pcb-main-ic">
+                            IC
+                        </div>
+
+                        <span class="pcb-pad pad-a"></span>
+                        <span class="pcb-pad pad-b"></span>
+                        <span class="pcb-pad pad-c"></span>
+
+                        <small>
+                            PCB
+                        </small>
+
+                    </div>
+
+
+                    <p>
+                        Representative PCB/workpiece presented
+                        to the vision stage.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- B: VISION INSPECTION -->
+
+            <article class="twin-stage">
+
+                <div class="stage-heading">
+
+                    <span class="stage-letter">
+                        B
+                    </span>
+
+                    <strong>
+                        VISION INSPECTION
+                    </strong>
+
+                </div>
+
+
+                <div class="stage-body vision-stage">
+
+                    <div class="camera-unit">
+
+                        <div class="camera-body">
+                            <div class="camera-lens"></div>
+                        </div>
+
+                        <div class="camera-stand"></div>
+
+                    </div>
+
+
+                    <div
+                        class="inspection-region"
+                        id="inspection-region"
+                    >
+
+                        <span>
+                            INSPECTION REGION
+                        </span>
+
+                        <div
+                            class="scan-line"
+                            id="scan-line"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="inspection-result">
+
+                        <span>
+                            INSPECTION RESULT
+                        </span>
+
+                        <strong id="inspection-result">
+                            PASS
+                        </strong>
+
+                        <!-- Compatibility field used by app.js -->
+                        <span
+                            id="vision-result"
+                            class="hidden-field"
+                        >
+                            STANDBY
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- C: QNX DECISION -->
+
+            <article class="twin-stage">
+
+                <div class="stage-heading">
+
+                    <span class="stage-letter">
+                        C
+                    </span>
+
+                    <strong>
+                        QNX DECISION
+                    </strong>
+
+                </div>
+
+
+                <div class="stage-body qnx-stage">
+
+                    <div
+                        class="qnx-block qnx-module"
+                        id="pipeline-vision"
+                    >
+
+                        <span>
+                            VISION
+                        </span>
+
+                        <strong>
+                            Inspection Task
+                        </strong>
+
+                    </div>
+
+
+                    <div class="vertical-arrow">
+                        ↓
+                    </div>
+
+
+                    <div
+                        class="qnx-block qnx-module"
+                        id="pipeline-ipc"
+                    >
+
+                        <span>
+                            IPC
+                        </span>
+
+                        <strong>
+                            Message Transfer
+                        </strong>
+
+                    </div>
+
+
+                    <div class="vertical-arrow">
+                        ↓
+                    </div>
+
+
+                    <div
+                        class="qnx-block qnx-module"
+                        id="pipeline-control"
+                    >
+
+                        <span>
+                            CONTROL
+                        </span>
+
+                        <strong>
+                            Real-Time Task
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- D: ROBOT HANDLING -->
+
+            <article class="twin-stage">
+
+                <div class="stage-heading">
+
+                    <span class="stage-letter">
+                        D
+                    </span>
+
+                    <strong>
+                        ROBOT HANDLING
+                    </strong>
+
+                </div>
+
+
+                <div class="stage-body robot-stage">
+
+                    <div
+                        class="robot"
+                        id="robot"
+                    >
+
+                        <div class="robot-base">
+                            QNX
+                        </div>
+
+                        <div class="robot-pedestal"></div>
+
+                        <div
+                            class="robot-arm arm-one"
+                            id="robot-arm-one"
+                        ></div>
+
+                        <div class="robot-joint joint-one"></div>
+
+                        <div
+                            class="robot-arm arm-two"
+                            id="robot-arm-two"
+                        ></div>
+
+                        <div class="robot-joint joint-two"></div>
+
+                        <div
+                            class="robot-gripper"
+                            id="gripper"
+                        >
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="controller-state">
+
+                        <span>
+                            CONTROLLER STATE
+                        </span>
+
+                        <strong id="controller-state">
+                            READY
+                        </strong>
+
+                        <!-- Compatibility with app.js -->
+                        <span
+                            id="robot-state-secondary"
+                            class="hidden-field"
+                        >
+                            READY
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+
+        <!-- =================================================
+             LIVE PROCESS
+        ================================================== -->
+
+        <div class="live-process">
+
+            <div>
+
+                <span>
+                    LIVE PROCESS STATE
+                </span>
+
+                <strong id="workcell-message">
+                    SELF-MONITORING ACTIVE —
+                    PCB INSPECTION STANDBY
+                </strong>
+
+            </div>
+
+
+            <div class="process-legend">
+
+                <span>
+
+                    <i class="legend-dot pass-dot"></i>
+
+                    PASS
+
+                </span>
+
+                <span>
+
+                    <i class="legend-dot fault-dot"></i>
+
+                    INSPECTION FAULT
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             APPLICATION PIPELINE
+        ================================================== -->
+
+        <div class="pipeline">
+
+            <div
+                class="pipeline-node"
+                data-stage="0"
+            >
+
+                <span>01</span>
+
+                <strong>
+                    CAMERA
+                </strong>
+
+                <small>
+                    Acquire
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                ›
+            </div>
+
+
+            <div
+                class="pipeline-node"
+                data-stage="1"
+            >
+
+                <span>02</span>
+
+                <strong>
+                    VISION
+                </strong>
+
+                <small>
+                    Inspect
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                ›
+            </div>
+
+
+            <div
+                class="pipeline-node"
+                data-stage="2"
+            >
+
+                <span>03</span>
+
+                <strong>
+                    QNX IPC
+                </strong>
+
+                <small>
+                    Transfer
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                ›
+            </div>
+
+
+            <div
+                class="pipeline-node"
+                data-stage="3"
+            >
+
+                <span>04</span>
+
+                <strong>
+                    CONTROL
+                </strong>
+
+                <small>
+                    Decide
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                ›
+            </div>
+
+
+            <div
+                class="pipeline-node"
+                data-stage="4"
+            >
+
+                <span>05</span>
+
+                <strong>
+                    ROBOT I/F
+                </strong>
+
+                <small>
+                    Command
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                ›
+            </div>
+
+
+            <div
+                class="pipeline-node"
+                data-stage="5"
+            >
+
+                <span>06</span>
+
+                <strong>
+                    HANDLING
+                </strong>
+
+                <small>
+                    Execute
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         03 SELF-DIAGNOSTIC LAYER
+    ====================================================== -->
+
+    <section class="panel diagnostic-panel">
+
+        <div class="section-heading">
+
+            <div class="section-title-wrap">
+
+                <span class="section-number-inline">
+                    03
+                </span>
+
+                <div>
+
+                    <span class="eyebrow">
+                        SELF-DIAGNOSTIC LAYER
+                    </span>
+
+                    <h2>
+                        BAILEY-RT Controller Health Supervisor
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 SELF-MONITORING STATUS
+            ============================================== -->
+
+            <div class="self-monitor-status">
+
+                <div class="self-monitor-primary">
+
+                    <span class="self-monitor-dot"></span>
+
+                    <div>
+
+                        <small>
+                            SELF-MONITORING
+                        </small>
+
+                        <strong>
+                            ACTIVE
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="self-monitor-details">
+
+                    <span>
+                        5 DOMAINS CONTINUOUSLY EVALUATED
+                    </span>
+
+                    <small>
+                        THERMAL · SENSOR · POWER ·
+                        COMMUNICATION · TIMING
+                    </small>
+
+                    <small>
+                        INPUT SOURCE:
+                        REPRESENTATIVE SOFTWARE INPUTS
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="diagnostic-layout">
+
+
+            <!-- =================================================
+                 HEALTH MONITOR TABLE
+            ================================================== -->
+
+            <div class="health-table">
+
+
+                <!-- THERMAL -->
+
+                <div
+                    class="health-row healthy"
+                    id="health-THERMAL"
+                >
+
+                    <div class="domain-cell">
+
+                        <span class="domain-icon">
+                            TH
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Thermal
+                            </strong>
+
+                            <small>
+                                Controller temperature
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-cell">
+
+                        <strong id="value-THERMAL">
+                            42.0
+                        </strong>
+
+                        <small>
+                            °C
+                        </small>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            WARNING
+                        </small>
+
+                        <strong>
+                            60 °C
+                        </strong>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            CRITICAL
+                        </small>
+
+                        <strong>
+                            75 °C
+                        </strong>
+
+                    </div>
+
+
+                    <div class="health-status-cell">
+
+                        <span id="status-THERMAL">
+                            HEALTHY
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-meter">
+
+                        <div id="meter-THERMAL"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SENSOR -->
+
+                <div
+                    class="health-row healthy"
+                    id="health-SENSOR"
+                >
+
+                    <div class="domain-cell">
+
+                        <span class="domain-icon">
+                            SN
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Sensor Integrity
+                            </strong>
+
+                            <small>
+                                Noise/degradation indicator
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-cell">
+
+                        <strong id="value-SENSOR">
+                            3.0
+                        </strong>
+
+                        <small>
+                            index
+                        </small>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            WARNING
+                        </small>
+
+                        <strong>
+                            8
+                        </strong>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            FAULT
+                        </small>
+
+                        <strong>
+                            15
+                        </strong>
+
+                    </div>
+
+
+                    <div class="health-status-cell">
+
+                        <span id="status-SENSOR">
+                            HEALTHY
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-meter">
+
+                        <div id="meter-SENSOR"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- POWER -->
+
+                <div
+                    class="health-row healthy"
+                    id="health-POWER"
+                >
+
+                    <div class="domain-cell">
+
+                        <span class="domain-icon">
+                            PW
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Power
+                            </strong>
+
+                            <small>
+                                Supply/current deviation
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-cell">
+
+                        <strong id="value-POWER">
+                            4.0
+                        </strong>
+
+                        <small>
+                            % deviation
+                        </small>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            WARNING
+                        </small>
+
+                        <strong>
+                            10%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            CRITICAL
+                        </small>
+
+                        <strong>
+                            20%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="health-status-cell">
+
+                        <span id="status-POWER">
+                            HEALTHY
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-meter">
+
+                        <div id="meter-POWER"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COMMUNICATION -->
+
+                <div
+                    class="health-row healthy"
+                    id="health-COMMUNICATION"
+                >
+
+                    <div class="domain-cell">
+
+                        <span class="domain-icon">
+                            CM
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Communication
+                            </strong>
+
+                            <small>
+                                Timeout/error count
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-cell">
+
+                        <strong id="value-COMMUNICATION">
+                            0
+                        </strong>
+
+                        <small>
+                            errors
+                        </small>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            WARNING
+                        </small>
+
+                        <strong>
+                            1
+                        </strong>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            CRITICAL
+                        </small>
+
+                        <strong>
+                            3
+                        </strong>
+
+                    </div>
+
+
+                    <div class="health-status-cell">
+
+                        <span id="status-COMMUNICATION">
+                            HEALTHY
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-meter">
+
+                        <div id="meter-COMMUNICATION"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TIMING -->
+
+                <div
+                    class="health-row healthy"
+                    id="health-TIMING"
+                >
+
+                    <div class="domain-cell">
+
+                        <span class="domain-icon">
+                            TM
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Control Timing
+                            </strong>
+
+                            <small>
+                                Prototype control execution
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric-cell">
+
+                        <strong id="value-TIMING">
+                            45000
+                        </strong>
+
+                        <small>
+                            µs
+                        </small>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            WARNING
+                        </small>
+
+                        <strong>
+                            64,000 µs
+                        </strong>
+
+                    </div>
+
+
+                    <div class="threshold-cell">
+
+                        <small>
+                            REQUIREMENT
+                        </small>
+
+                        <strong>
+                            80,000 µs
+                        </strong>
+
+                    </div>
+
+
+                    <div class="health-status-cell">
+
+                        <span id="status-TIMING">
+                            HEALTHY
+                        </span>
+
+                    </div>
+
+
+                    <div class="health-meter">
+
+                        <div id="meter-TIMING"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DECISION ENGINE
+            ================================================== -->
+
+            <aside class="decision-panel">
+
+                <span class="eyebrow">
+                    SUPERVISORY DECISION
+                </span>
+
+                <h3>
+                    Fault-to-Safety Response
+                </h3>
+
+
+                <div class="decision-flow">
+
+
+                    <div
+                        class="decision-node active"
+                        id="decision-health"
+                    >
+
+                        <span>
+                            01
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Health Engine
+                            </strong>
+
+                            <small>
+                                Continuously monitor
+                                and evaluate
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        class="decision-node"
+                        id="decision-fault"
+                    >
+
+                        <span>
+                            02
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Fault Manager
+                            </strong>
+
+                            <small>
+                                Classify domain and severity
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        class="decision-node"
+                        id="decision-safety"
+                    >
+
+                        <span>
+                            03
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Safety Manager
+                            </strong>
+
+                            <small>
+                                Apply safety-state logic
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        class="decision-node"
+                        id="decision-response"
+                    >
+
+                        <span>
+                            04
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                System Response
+                            </strong>
+
+                            <small>
+                                LOG / ALERT / DEGRADE /
+                                SAFE MODE
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DECISION READOUT -->
+
+                <div class="decision-readout">
+
+                    <div>
+
+                        <span>
+                            DETECTED DOMAIN
+                        </span>
+
+                        <strong id="decision-domain">
+                            NONE
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            SEVERITY
+                        </span>
+
+                        <strong id="decision-severity">
+                            INFO
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            SELECTED RESPONSE
+                        </span>
+
+                        <strong id="decision-action">
+                            LOG
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            SAFETY RESULT
+                        </span>
+
+                        <strong id="decision-safety-result">
+                            COMMANDS ENABLED
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Compatibility fields -->
+
+                <span
+                    id="diagnostic-score"
+                    class="hidden-field"
+                >
+                    0
+                </span>
+
+                <span
+                    id="diagnostic-latency"
+                    class="hidden-field"
+                >
+                    0
+                </span>
+
+                <span
+                    id="operating-mode"
+                    class="hidden-field"
+                >
+                    NORMAL
+                </span>
+
+                <span
+                    id="decision-response-text"
+                    class="hidden-field"
+                >
+                    LOG
+                </span>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         04 EXPERIMENTAL EVIDENCE
+    ====================================================== -->
+
+    <section class="panel evidence-panel">
+
+        <div class="section-heading">
+
+            <div class="section-title-wrap">
+
+                <span class="section-number-inline">
+                    04
+                </span>
+
+                <div>
+
+                    <span class="eyebrow">
+                        EXPERIMENTAL EVIDENCE
+                    </span>
+
+                    <h2>
+                        Controlled Software Fault-Injection
+                        Validation
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <span class="panel-badge">
+                CSV-BACKED RESULTS
+            </span>
+
+        </div>
+
+
+
+        <div class="evidence-metrics">
+
+            <div>
+
+                <span>
+                    CONTROLLED TRIALS
+                </span>
+
+                <strong id="evidence-trials">
+                    60
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    EXPECTED RESPONSES
+                </span>
+
+                <strong id="evidence-correct">
+                    60/60
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    CONTROLLED RESPONSE RATE
+                </span>
+
+                <strong id="evidence-rate">
+                    100.00%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EVIDENCE TABLE -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            EXPERIMENT
+                        </th>
+
+                        <th>
+                            DOMAIN
+                        </th>
+
+                        <th>
+                            TRIALS
+                        </th>
+
+                        <th>
+                            EXPECTED RESPONSE
+                        </th>
+
+                        <th>
+                            MEAN PC DIAGNOSTIC LATENCY
+                        </th>
+
+                        <th>
+                            RESPONSE STATE
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="evidence-body">
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <div class="evidence-note">
+
+            <strong>
+                Evidence boundary.
+            </strong>
+
+            Results shown here are from controlled
+            software-injected diagnostic trials.
+
+            Diagnostic latency represents Python
+            health-engine execution on the development PC.
+
+            It is not QNX control latency, physical sensor
+            response time, Arduino timing, or certified
+            safety-response performance.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         05 EVENT STREAM
+    ====================================================== -->
+
+    <section class="panel event-panel">
+
+        <div class="section-heading">
+
+            <div class="section-title-wrap">
+
+                <span class="section-number-inline">
+                    05
+                </span>
+
+                <div>
+
+                    <span class="eyebrow">
+                        LOCAL RECORD
+                    </span>
+
+                    <h2>
+                        BAILEY-RT Diagnostic Event Stream
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="small-button"
+                onclick="clearEventLog()"
+            >
+                CLEAR LOG
+            </button>
+
+        </div>
+
+
+        <div
+            class="event-log"
+            id="event-log"
+        >
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <div>
+
+            <strong>
+                BAILEY-RT
+            </strong>
+
+            <span>
+                Research Prototype Digital Twin
+            </span>
+
+        </div>
+
+
+        <p>
+            Application visualization represents the software
+            architecture and controller state sequence.
+            BAILEY-RT continuously evaluates representative
+            software health inputs in the current prototype.
+            Diagnostic scenario controls introduce controlled
+            abnormal inputs for validation and demonstration.
+        </p>
+
+    </footer>
+
+</div>
+
+
+
+<!-- =========================================================
+     FIXED DEMONSTRATION CONSOLE
+========================================================= -->
+
+<div class="demo-console">
+
+    <div class="demo-label">
+
+        <span>
+            CONTROLLED FAULT INJECTION
+        </span>
+
+        <strong>
+            Demonstration / validation controls
+        </strong>
+
+    </div>
+
+
+    <div class="demo-buttons">
+
+
+        <button
+            class="btn normal"
+            onclick="normalRun()"
+        >
+            ▶ NORMAL INSPECTION
+        </button>
+
+
+        <button
+            class="btn warning"
+            onclick="injectFault('sensor')"
+        >
+            SENSOR NOISE
+        </button>
+
+
+        <button
+            class="btn critical"
+            onclick="injectFault('thermal')"
+        >
+            THERMAL
+        </button>
+
+
+        <button
+            class="btn critical"
+            onclick="injectFault('power')"
+        >
+            POWER
+        </button>
+
+
+        <button
+            class="btn critical"
+            onclick="injectFault('communication')"
+        >
+            COMMUNICATION
+        </button>
+
+
+        <button
+            class="btn critical"
+            onclick="injectFault('timing')"
+        >
+            TIMING
+        </button>
+
+
+        <button
+            class="btn reset"
+            onclick="resetSystem()"
+        >
+            ↻ RESET
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     SAFE MODE OVERLAY
+========================================================= -->
+
+<div
+    class="safe-overlay hidden"
+    id="safe-overlay"
+>
+
+    <div class="safe-dialog">
+
+        <span>
+            BAILEY-RT SAFETY RESPONSE
+        </span>
+
+        <h2>
+            SAFE MODE ACTIVE
+        </h2>
+
+        <p id="safe-overlay-reason">
+            Critical fault detected
+        </p>
+
+        <strong>
+            ROBOT MOVEMENT COMMANDS BLOCKED
+        </strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+>
+
+    <strong id="toast-title">
+        BAILEY-RT
+    </strong>
+
+    <span id="toast-message">
+        System ready.
+    </span>
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='app.js') }}"
+></script>
+
+
+</body>
+</html>

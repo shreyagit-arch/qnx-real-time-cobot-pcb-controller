@@ -1,0 +1,3209 @@
+/* ============================================================
+   BAILEY-RT
+   Self-Diagnosing Supervisory System for a QNX-Based
+   PCB Robotic Controller
+
+   Formal research / engineering dashboard
+   ============================================================ */
+
+:root {
+    --bg: #071019;
+    --bg-deep: #040a10;
+    --surface: #0c1722;
+    --surface-2: #101e2b;
+    --surface-3: #132433;
+
+    --border: #203647;
+    --border-soft: #172b3a;
+
+    --text: #e7f0f5;
+    --text-soft: #9eb0bd;
+    --text-dim: #6f8493;
+
+    --cyan: #27c5d9;
+    --cyan-soft: rgba(39, 197, 217, 0.12);
+    --cyan-border: rgba(39, 197, 217, 0.35);
+
+    --green: #42d392;
+    --green-soft: rgba(66, 211, 146, 0.12);
+
+    --amber: #f2b84b;
+    --amber-soft: rgba(242, 184, 75, 0.13);
+
+    --red: #ff5d68;
+    --red-soft: rgba(255, 93, 104, 0.13);
+
+    --radius: 8px;
+    --radius-lg: 12px;
+
+    --shadow: 0 14px 35px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 1180px;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(39, 197, 217, 0.06), transparent 30%),
+        linear-gradient(180deg, #071019 0%, #050c13 100%);
+    color: var(--text);
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    border: 0;
+}
+
+strong,
+h1,
+h2,
+h3 {
+    letter-spacing: -0.015em;
+}
+
+.app-shell {
+    width: min(1600px, calc(100% - 44px));
+    margin: 0 auto;
+    padding-bottom: 130px;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.top-header {
+    min-height: 108px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.brand-mark {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--cyan-border);
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(39, 197, 217, 0.16),
+            rgba(39, 197, 217, 0.03)
+        );
+
+    color: var(--cyan);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.brand-area h1 {
+    margin: 0;
+    font-size: 27px;
+    line-height: 1;
+    letter-spacing: 0.07em;
+}
+
+.brand-area p {
+    margin: 8px 0 0;
+    max-width: 590px;
+    color: var(--text-soft);
+    font-size: 13px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.system-health-box {
+    min-width: 175px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 15px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.health-dot {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 5px rgba(66, 211, 146, 0.09);
+}
+
+.system-health-box small {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--text-dim);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.system-health-box strong {
+    color: var(--green);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+}
+
+.research-badge,
+.panel-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--cyan-border);
+    background: var(--cyan-soft);
+    color: var(--cyan);
+
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.research-badge {
+    min-height: 38px;
+    padding: 0 13px;
+}
+
+
+/* ============================================================
+   STATUS STRIP
+   ============================================================ */
+
+.status-strip {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin: 22px 0;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.status-item {
+    min-height: 72px;
+    padding: 15px 17px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border-right: 1px solid var(--border-soft);
+}
+
+.status-item:last-child {
+    border-right: 0;
+}
+
+.status-item span {
+    margin-bottom: 6px;
+    color: var(--text-dim);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+}
+
+.status-item strong {
+    color: var(--text);
+    font-size: 13px;
+    word-break: break-word;
+}
+
+
+/* ============================================================
+   COMMON PANELS
+   ============================================================ */
+
+.panel {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 27px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16, 30, 43, 0.94),
+            rgba(10, 21, 31, 0.97)
+        );
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 26px;
+    right: 26px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(39, 197, 217, 0.35),
+            transparent
+        );
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: 6px;
+
+    color: var(--cyan);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.panel h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 23px;
+    font-weight: 650;
+}
+
+.panel h3 {
+    margin: 0;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 25px;
+}
+
+.section-title-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 17px;
+}
+
+.section-number-inline,
+.section-number {
+    color: var(--cyan);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.section-number-inline {
+    padding-top: 3px;
+    font-size: 14px;
+}
+
+.panel-badge {
+    padding: 7px 10px;
+}
+
+
+/* ============================================================
+   01 SYSTEM OVERVIEW
+   ============================================================ */
+
+.overview-panel {
+    display: grid;
+    grid-template-columns: 70px 1.15fr 1.55fr;
+    gap: 24px;
+    align-items: center;
+}
+
+.section-number {
+    align-self: start;
+    padding-top: 5px;
+    font-size: 25px;
+}
+
+.overview-copy p {
+    max-width: 640px;
+    margin: 12px 0 0;
+    color: var(--text-soft);
+    font-size: 13px;
+}
+
+.overview-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.overview-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+
+    min-height: 132px;
+    padding: 17px;
+
+    background: rgba(6, 16, 24, 0.48);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.overview-icon {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--cyan-border);
+    border-radius: 7px;
+
+    background: var(--cyan-soft);
+    color: var(--cyan);
+    font-size: 18px;
+}
+
+.overview-card span {
+    color: var(--text-dim);
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+}
+
+.overview-card h3 {
+    margin: 5px 0 6px;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.overview-card p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   ARCHITECTURE FLOW
+   ============================================================ */
+
+.architecture-flow {
+    display: grid;
+    grid-template-columns:
+        minmax(130px, 1fr) 30px
+        minmax(130px, 1fr) 30px
+        minmax(130px, 1fr) 30px
+        minmax(130px, 1fr) 30px
+        minmax(130px, 1fr);
+
+    align-items: center;
+    gap: 6px;
+
+    margin-bottom: 24px;
+    padding: 14px;
+
+    background: rgba(4, 12, 18, 0.48);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+}
+
+.architecture-node {
+    min-height: 67px;
+    padding: 10px 12px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+}
+
+.architecture-node span {
+    color: var(--cyan);
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.architecture-node strong {
+    margin: 3px 0;
+    font-size: 11px;
+    letter-spacing: 0.035em;
+}
+
+.architecture-node small {
+    color: var(--text-dim);
+    font-size: 9px;
+}
+
+.flow-arrow {
+    color: var(--cyan);
+    text-align: center;
+    font-size: 21px;
+}
+
+
+/* ============================================================
+   DIGITAL TWIN
+   ============================================================ */
+
+.digital-twin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.twin-stage {
+    min-width: 0;
+    overflow: hidden;
+
+    background: rgba(5, 14, 22, 0.58);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.stage-heading {
+    min-height: 45px;
+    padding: 10px 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: rgba(15, 31, 43, 0.78);
+    border-bottom: 1px solid var(--border);
+}
+
+.stage-letter {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--cyan-soft);
+    border: 1px solid var(--cyan-border);
+    border-radius: 5px;
+
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.stage-heading strong {
+    font-size: 10px;
+    letter-spacing: 0.075em;
+}
+
+.stage-body {
+    min-height: 280px;
+    position: relative;
+    padding: 18px;
+}
+
+.stage-body > p {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 13px;
+
+    margin: 0;
+    color: var(--text-dim);
+    text-align: center;
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   PCB REPRESENTATION
+   ============================================================ */
+
+.pcb-stage {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.pcb-board {
+    position: relative;
+
+    width: 190px;
+    height: 165px;
+
+    border: 2px solid rgba(66, 211, 146, 0.48);
+    border-radius: 7px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(66, 211, 146, 0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            rgba(66, 211, 146, 0.035) 1px,
+            transparent 1px
+        ),
+        #0b342a;
+
+    background-size: 18px 18px;
+
+    box-shadow:
+        inset 0 0 28px rgba(0, 0, 0, 0.35),
+        0 10px 25px rgba(0, 0, 0, 0.22);
+}
+
+.pcb-board::before,
+.pcb-board::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+
+    border: 1px solid #a2d8bd;
+    border-radius: 50%;
+}
+
+.pcb-board::before {
+    left: 8px;
+    top: 8px;
+}
+
+.pcb-board::after {
+    right: 8px;
+    bottom: 8px;
+}
+
+.pcb-board small {
+    position: absolute;
+    left: 10px;
+    bottom: 7px;
+
+    color: rgba(210, 255, 230, 0.65);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+}
+
+.pcb-main-ic {
+    position: absolute;
+    left: 70px;
+    top: 51px;
+
+    width: 54px;
+    height: 45px;
+
+    display: grid;
+    place-items: center;
+
+    background: #10171b;
+    border: 1px solid #53666e;
+    border-radius: 3px;
+
+    color: #aebbc1;
+    font-size: 10px;
+}
+
+.pcb-main-ic::before,
+.pcb-main-ic::after {
+    content: "";
+    position: absolute;
+    left: -7px;
+    right: -7px;
+    height: 4px;
+
+    border-left: 5px dotted #93a4aa;
+    border-right: 5px dotted #93a4aa;
+}
+
+.pcb-main-ic::before {
+    top: 9px;
+}
+
+.pcb-main-ic::after {
+    bottom: 9px;
+}
+
+.pcb-chip {
+    position: absolute;
+    width: 22px;
+    height: 12px;
+
+    background: #152126;
+    border: 1px solid #697b82;
+    border-radius: 2px;
+}
+
+.chip-a {
+    left: 24px;
+    top: 30px;
+}
+
+.chip-b {
+    right: 20px;
+    top: 28px;
+}
+
+.chip-c {
+    left: 28px;
+    bottom: 37px;
+}
+
+.chip-d {
+    right: 28px;
+    bottom: 34px;
+}
+
+.pcb-pad {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+
+    background: #b78b42;
+    border: 2px solid #e0ba70;
+    border-radius: 50%;
+}
+
+.pad-a {
+    left: 18px;
+    top: 75px;
+}
+
+.pad-b {
+    right: 15px;
+    top: 82px;
+}
+
+.pad-c {
+    left: 90px;
+    bottom: 15px;
+}
+
+.pcb-trace {
+    position: absolute;
+    display: block;
+    background: rgba(124, 221, 166, 0.42);
+}
+
+.trace-h {
+    left: 15px;
+    right: 15px;
+    top: 108px;
+    height: 1px;
+}
+
+.trace-v {
+    top: 18px;
+    bottom: 18px;
+    left: 56px;
+    width: 1px;
+}
+
+
+/* ============================================================
+   CAMERA / VISION REPRESENTATION
+   ============================================================ */
+
+.vision-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.camera-unit {
+    position: relative;
+    width: 105px;
+    height: 70px;
+}
+
+.camera-body {
+    position: absolute;
+    left: 18px;
+    top: 2px;
+
+    width: 70px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    background: #182631;
+    border: 1px solid #496273;
+    border-radius: 5px;
+}
+
+.camera-lens {
+    width: 24px;
+    height: 24px;
+
+    border: 5px solid #354d5c;
+    border-radius: 50%;
+
+    background: #050a0d;
+    box-shadow: 0 0 0 2px rgba(39, 197, 217, 0.18);
+}
+
+.camera-stand {
+    position: absolute;
+    left: 50px;
+    top: 42px;
+
+    width: 5px;
+    height: 25px;
+
+    background: #415663;
+}
+
+.camera-stand::after {
+    content: "";
+    position: absolute;
+    left: -18px;
+    bottom: 0;
+
+    width: 42px;
+    height: 4px;
+
+    background: #415663;
+}
+
+.inspection-region {
+    position: relative;
+
+    width: 82%;
+    height: 88px;
+    margin-top: 5px;
+
+    display: grid;
+    place-items: center;
+
+    overflow: hidden;
+
+    border: 1px dashed var(--cyan-border);
+    background:
+        linear-gradient(
+            rgba(39, 197, 217, 0.025),
+            rgba(39, 197, 217, 0.065)
+        );
+}
+
+.inspection-region span {
+    z-index: 2;
+
+    color: var(--text-soft);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+}
+
+.scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 12px;
+
+    height: 1px;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+
+    opacity: 0.8;
+
+    animation: scan 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes scan {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(60px);
+    }
+}
+
+.inspection-result {
+    width: 82%;
+    margin-top: 10px;
+    padding: 8px 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: var(--green-soft);
+    border: 1px solid rgba(66, 211, 146, 0.28);
+    border-radius: 5px;
+}
+
+.inspection-result span {
+    color: var(--text-dim);
+    font-size: 8px;
+}
+
+.inspection-result strong {
+    color: var(--green);
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   QNX STAGE
+   ============================================================ */
+
+.qnx-stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.qnx-block {
+    width: 86%;
+    min-height: 48px;
+    margin: 0 auto;
+    padding: 8px 11px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: #0d1d29;
+    border: 1px solid #28465a;
+    border-radius: 5px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.qnx-block span {
+    color: var(--cyan);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.qnx-block strong {
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.qnx-block.active {
+    background: var(--cyan-soft);
+    border-color: var(--cyan);
+    box-shadow: 0 0 16px rgba(39, 197, 217, 0.1);
+}
+
+.vertical-arrow {
+    height: 22px;
+
+    display: grid;
+    place-items: center;
+
+    color: #496b7e;
+}
+
+
+/* ============================================================
+   ROBOT REPRESENTATION
+   ============================================================ */
+
+.robot-stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.robot {
+    position: relative;
+
+    width: 220px;
+    height: 170px;
+
+    margin-top: -7px;
+}
+
+.robot-base {
+    position: absolute;
+    left: 50px;
+    bottom: 8px;
+
+    width: 80px;
+    height: 30px;
+
+    display: grid;
+    place-items: center;
+
+    background: #172b38;
+    border: 1px solid #496476;
+    border-radius: 4px;
+
+    color: var(--cyan);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.robot-pedestal {
+    position: absolute;
+    left: 80px;
+    bottom: 37px;
+
+    width: 22px;
+    height: 42px;
+
+    background: #294554;
+    border: 1px solid #567382;
+}
+
+.robot-arm {
+    position: absolute;
+    height: 14px;
+
+    transform-origin: 7px 7px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #426a7e,
+            #294959
+        );
+
+    border: 1px solid #60869a;
+    border-radius: 8px;
+
+    transition: transform 0.4s ease;
+}
+
+.arm-one {
+    width: 82px;
+    left: 88px;
+    bottom: 72px;
+
+    transform: rotate(-58deg);
+}
+
+.arm-two {
+    width: 72px;
+    left: 126px;
+    bottom: 137px;
+
+    transform: rotate(18deg);
+}
+
+.robot-joint {
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+
+    border: 4px solid #527589;
+    border-radius: 50%;
+
+    background: #0a141b;
+}
+
+.joint-one {
+    left: 79px;
+    bottom: 68px;
+}
+
+.joint-two {
+    left: 125px;
+    bottom: 128px;
+}
+
+.robot-gripper {
+    position: absolute;
+    right: 9px;
+    top: 25px;
+
+    width: 27px;
+    height: 28px;
+}
+
+.robot-gripper::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 0;
+
+    width: 6px;
+    height: 12px;
+
+    background: #557887;
+}
+
+.robot-gripper span {
+    position: absolute;
+    bottom: 0;
+
+    width: 5px;
+    height: 17px;
+
+    background: #7395a3;
+}
+
+.robot-gripper span:first-child {
+    left: 4px;
+    transform: rotate(10deg);
+}
+
+.robot-gripper span:last-child {
+    right: 4px;
+    transform: rotate(-10deg);
+}
+
+.controller-state {
+    width: 88%;
+    padding: 8px 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(66, 211, 146, 0.08);
+    border: 1px solid rgba(66, 211, 146, 0.23);
+    border-radius: 5px;
+}
+
+.controller-state span {
+    color: var(--text-dim);
+    font-size: 8px;
+}
+
+.controller-state strong {
+    color: var(--green);
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   LIVE PROCESS
+   ============================================================ */
+
+.live-process {
+    margin-top: 14px;
+    padding: 12px 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background: #08131c;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.live-process > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.live-process span {
+    color: var(--text-dim);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.live-process strong {
+    color: var(--text);
+    font-size: 10px;
+    letter-spacing: 0.035em;
+}
+
+.process-legend {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.process-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.pass-dot {
+    background: var(--green);
+}
+
+.fault-dot {
+    background: var(--red);
+}
+
+
+/* ============================================================
+   PIPELINE
+   ============================================================ */
+
+.pipeline {
+    display: grid;
+    grid-template-columns:
+        1fr 22px
+        1fr 22px
+        1fr 22px
+        1fr 22px
+        1fr 22px
+        1fr;
+
+    align-items: center;
+    gap: 5px;
+
+    margin-top: 13px;
+}
+
+.pipeline-node {
+    min-height: 59px;
+    padding: 9px 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: rgba(8, 20, 29, 0.85);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.pipeline-node span {
+    color: var(--cyan);
+    font-size: 7px;
+    font-weight: 800;
+}
+
+.pipeline-node strong {
+    margin: 2px 0;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+}
+
+.pipeline-node small {
+    color: var(--text-dim);
+    font-size: 8px;
+}
+
+.pipeline-node.active {
+    transform: translateY(-2px);
+    background: var(--cyan-soft);
+    border-color: var(--cyan);
+}
+
+.pipeline-arrow {
+    color: #476679;
+    text-align: center;
+    font-size: 20px;
+}
+
+
+/* ============================================================
+   DIAGNOSTIC LAYER
+   ============================================================ */
+
+.diagnostic-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(300px, 0.7fr);
+    gap: 16px;
+}
+
+.health-table {
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.health-row {
+    min-height: 78px;
+
+    display: grid;
+    grid-template-columns:
+        minmax(210px, 1.7fr)
+        minmax(100px, 0.7fr)
+        minmax(95px, 0.72fr)
+        minmax(95px, 0.72fr)
+        minmax(95px, 0.75fr)
+        minmax(90px, 0.7fr);
+
+    align-items: center;
+
+    background: rgba(6, 16, 24, 0.5);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.health-row:last-child {
+    border-bottom: 0;
+}
+
+.health-row > div {
+    padding: 10px 12px;
+}
+
+.domain-cell {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.domain-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--cyan-soft);
+    border: 1px solid var(--cyan-border);
+    border-radius: 5px;
+
+    color: var(--cyan);
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.domain-cell strong {
+    display: block;
+    font-size: 11px;
+}
+
+.domain-cell small,
+.threshold-cell small,
+.metric-cell small {
+    display: block;
+    color: var(--text-dim);
+    font-size: 8px;
+}
+
+.metric-cell strong {
+    font-size: 12px;
+}
+
+.threshold-cell strong {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-soft);
+    font-size: 9px;
+}
+
+.health-status-cell span {
+    display: inline-flex;
+    min-width: 72px;
+    justify-content: center;
+
+    padding: 5px 7px;
+
+    border-radius: 4px;
+
+    background: var(--green-soft);
+    border: 1px solid rgba(66, 211, 146, 0.23);
+
+    color: var(--green);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.health-meter {
+    padding-right: 15px !important;
+}
+
+.health-meter {
+    position: relative;
+    height: 6px;
+
+    margin: 0 12px;
+
+    overflow: hidden;
+
+    background: #182832;
+    border-radius: 10px;
+}
+
+.health-meter > div {
+    width: 25%;
+    height: 100%;
+
+    background: var(--green);
+    border-radius: inherit;
+
+    transition:
+        width 0.35s ease,
+        background 0.35s ease;
+}
+
+
+/* health dynamic states */
+
+.health-row.warning .health-status-cell span,
+.health-row.degraded .health-status-cell span {
+    background: var(--amber-soft);
+    border-color: rgba(242, 184, 75, 0.28);
+    color: var(--amber);
+}
+
+.health-row.warning .health-meter > div,
+.health-row.degraded .health-meter > div {
+    background: var(--amber);
+}
+
+.health-row.fault .health-status-cell span,
+.health-row.critical .health-status-cell span {
+    background: var(--red-soft);
+    border-color: rgba(255, 93, 104, 0.28);
+    color: var(--red);
+}
+
+.health-row.fault .health-meter > div,
+.health-row.critical .health-meter > div {
+    background: var(--red);
+}
+
+
+/* ============================================================
+   DECISION PANEL
+   ============================================================ */
+
+.decision-panel {
+    padding: 18px;
+
+    background: rgba(5, 14, 22, 0.65);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.decision-panel h3 {
+    margin: 2px 0 17px;
+    font-size: 15px;
+}
+
+.decision-flow {
+    display: grid;
+    gap: 8px;
+}
+
+.decision-node {
+    min-height: 55px;
+    padding: 9px 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #0b1822;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.decision-node > span {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #365364;
+    border-radius: 4px;
+
+    color: var(--text-dim);
+    font-size: 8px;
+}
+
+.decision-node strong {
+    display: block;
+    font-size: 10px;
+}
+
+.decision-node small {
+    display: block;
+    margin-top: 2px;
+
+    color: var(--text-dim);
+    font-size: 8px;
+}
+
+.decision-node.active {
+    background: var(--cyan-soft);
+    border-color: var(--cyan-border);
+}
+
+.decision-node.active > span {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.decision-readout {
+    margin-top: 15px;
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+    border-radius: 5px;
+}
+
+.decision-readout > div {
+    min-height: 42px;
+    padding: 8px 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.decision-readout > div:last-child {
+    border-bottom: 0;
+}
+
+.decision-readout span {
+    color: var(--text-dim);
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+}
+
+.decision-readout strong {
+    font-size: 9px;
+    text-align: right;
+}
+
+
+/* ============================================================
+   EVIDENCE
+   ============================================================ */
+
+.evidence-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    margin-bottom: 18px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.evidence-metrics > div {
+    min-height: 82px;
+    padding: 14px 18px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: rgba(5, 15, 23, 0.56);
+    border-right: 1px solid var(--border);
+}
+
+.evidence-metrics > div:last-child {
+    border-right: 0;
+}
+
+.evidence-metrics span {
+    color: var(--text-dim);
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+}
+
+.evidence-metrics strong {
+    margin-top: 4px;
+    color: var(--cyan);
+    font-size: 22px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(5, 14, 21, 0.48);
+}
+
+thead {
+    background: #0d1b26;
+}
+
+th,
+td {
+    padding: 11px 13px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+th {
+    color: var(--text-dim);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+}
+
+td {
+    color: var(--text-soft);
+    font-size: 10px;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+tbody tr:hover {
+    background: rgba(39, 197, 217, 0.035);
+}
+
+.evidence-note {
+    margin-top: 14px;
+    padding: 12px 14px;
+
+    background: rgba(39, 197, 217, 0.04);
+    border-left: 2px solid var(--cyan);
+
+    color: var(--text-soft);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.evidence-note strong {
+    color: var(--text);
+}
+
+
+/* ============================================================
+   EVENT STREAM
+   ============================================================ */
+
+.small-button {
+    padding: 7px 11px;
+
+    cursor: pointer;
+
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+
+    color: var(--text-soft);
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.small-button:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: var(--cyan-soft);
+}
+
+.event-log {
+    min-height: 150px;
+    max-height: 250px;
+    overflow-y: auto;
+
+    padding: 12px;
+
+    background: #040c12;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    font-family:
+        "Cascadia Code",
+        Consolas,
+        "Courier New",
+        monospace;
+
+    color: #9eb4c1;
+    font-size: 10px;
+}
+
+.event-log:empty::before {
+    content: "No diagnostic events recorded.";
+    color: var(--text-dim);
+}
+
+.log-entry {
+    padding: 7px 4px;
+    border-bottom: 1px solid rgba(32, 54, 71, 0.55);
+}
+
+.log-entry:last-child {
+    border-bottom: 0;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+    min-height: 80px;
+    padding: 16px 4px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 35px;
+
+    color: var(--text-dim);
+    font-size: 9px;
+}
+
+footer > div {
+    min-width: 200px;
+}
+
+footer strong {
+    display: block;
+    margin-bottom: 3px;
+
+    color: var(--text-soft);
+    letter-spacing: 0.07em;
+}
+
+footer span {
+    color: var(--text-dim);
+}
+
+footer p {
+    max-width: 700px;
+    margin: 0;
+
+    text-align: right;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   FIXED DEMONSTRATION CONSOLE
+   ============================================================ */
+
+.demo-console {
+    position: fixed;
+    z-index: 800;
+
+    left: 50%;
+    bottom: 16px;
+
+    width: min(1500px, calc(100% - 44px));
+    min-width: 1120px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    padding: 12px 15px;
+
+    background: rgba(7, 17, 25, 0.96);
+    border: 1px solid #2b4759;
+    border-radius: 9px;
+
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(39, 197, 217, 0.025);
+
+    backdrop-filter: blur(10px);
+}
+
+.demo-label {
+    min-width: 175px;
+}
+
+.demo-label span {
+    display: block;
+
+    color: var(--cyan);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.demo-label strong {
+    display: block;
+    margin-top: 3px;
+
+    color: var(--text-soft);
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.demo-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    flex-wrap: nowrap;
+}
+
+.btn {
+    min-height: 37px;
+    padding: 0 12px;
+
+    cursor: pointer;
+
+    border: 1px solid var(--border);
+    border-radius: 5px;
+
+    background: #0d1b25;
+    color: var(--text-soft);
+
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.045em;
+
+    transition:
+        transform 0.15s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn.normal {
+    border-color: rgba(66, 211, 146, 0.35);
+    color: var(--green);
+}
+
+.btn.normal:hover {
+    background: var(--green-soft);
+    border-color: var(--green);
+}
+
+.btn.warning {
+    border-color: rgba(242, 184, 75, 0.35);
+    color: var(--amber);
+}
+
+.btn.warning:hover {
+    background: var(--amber-soft);
+    border-color: var(--amber);
+}
+
+.btn.critical {
+    border-color: rgba(255, 93, 104, 0.32);
+    color: #ff8089;
+}
+
+.btn.critical:hover {
+    background: var(--red-soft);
+    border-color: var(--red);
+}
+
+.btn.reset {
+    border-color: var(--cyan-border);
+    color: var(--cyan);
+}
+
+.btn.reset:hover {
+    background: var(--cyan-soft);
+    border-color: var(--cyan);
+}
+
+
+/* ============================================================
+   BAILEY-RT DEMO CONSOLE — PRESENTATION SIZE OVERRIDE
+   ============================================================ */
+
+.demo-console {
+    bottom: 20px;
+    min-height: 86px;
+    padding: 17px 22px;
+    gap: 24px;
+    border-radius: 12px;
+}
+
+.demo-label {
+    min-width: 205px;
+}
+
+.demo-label span {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+}
+
+.demo-label strong {
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.demo-buttons {
+    gap: 10px;
+}
+
+.demo-console .btn {
+    min-height: 50px;
+    padding: 0 17px;
+    border-radius: 7px;
+    font-size: 10px;
+    letter-spacing: 0.055em;
+    white-space: nowrap;
+}
+
+.demo-console .btn:hover {
+    transform: translateY(-2px);
+}
+
+.app-shell {
+    padding-bottom: 155px;
+}
+/* ============================================================
+   SAFE MODE OVERLAY
+   ============================================================ */
+
+.safe-overlay {
+    position: fixed;
+    z-index: 2000;
+
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    background: rgba(2, 6, 9, 0.82);
+    backdrop-filter: blur(7px);
+}
+
+.safe-dialog {
+    width: min(560px, calc(100% - 50px));
+    padding: 34px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #17151b,
+            #0d1217
+        );
+
+    border: 1px solid rgba(255, 93, 104, 0.5);
+    border-radius: 10px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.6),
+        0 0 35px rgba(255, 93, 104, 0.08);
+}
+
+.safe-dialog > span {
+    color: var(--red);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.safe-dialog h2 {
+    margin: 11px 0 8px;
+
+    color: #fff;
+    font-size: 30px;
+    letter-spacing: 0.03em;
+}
+
+.safe-dialog p {
+    margin: 0 0 20px;
+    color: var(--text-soft);
+}
+
+.safe-dialog > strong {
+    display: block;
+    padding: 10px;
+
+    background: var(--red-soft);
+    border: 1px solid rgba(255, 93, 104, 0.28);
+    border-radius: 5px;
+
+    color: var(--red);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+
+.toast {
+    position: fixed;
+    z-index: 2200;
+
+    top: 18px;
+    right: 18px;
+
+    width: 330px;
+    padding: 13px 15px;
+
+    transform: translateX(380px);
+
+    background: #0c1b25;
+    border: 1px solid var(--cyan-border);
+    border-radius: 7px;
+
+    box-shadow: var(--shadow);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        transform 0.28s ease,
+        opacity 0.28s ease;
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast strong {
+    display: block;
+
+    color: var(--cyan);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+}
+
+.toast span {
+    display: block;
+    margin-top: 3px;
+
+    color: var(--text-soft);
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   GENERAL DYNAMIC STATES
+   ============================================================ */
+
+.hidden,
+.hidden-field {
+    display: none !important;
+}
+
+body.safe-mode .health-dot {
+    background: var(--red);
+    box-shadow: 0 0 0 5px rgba(255, 93, 104, 0.09);
+}
+
+body.safe-mode #overall-status,
+body.safe-mode #system-state,
+body.safe-mode #safety-latch,
+body.safe-mode #command-status {
+    color: var(--red);
+}
+
+body.degraded #overall-status,
+body.degraded #system-state {
+    color: var(--amber);
+}
+
+.fault-text,
+.critical-text {
+    color: var(--red) !important;
+}
+
+.warning-text,
+.degraded-text {
+    color: var(--amber) !important;
+}
+
+.healthy-text {
+    color: var(--green) !important;
+}
+
+.active-stage {
+    border-color: var(--cyan) !important;
+    box-shadow: 0 0 15px rgba(39, 197, 217, 0.08);
+}
+
+
+/* ============================================================
+   SCROLLBARS
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #061019;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #243b4a;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #315166;
+}
+
+
+/* ============================================================
+   PROJECTOR / SMALLER DESKTOP SUPPORT
+   ============================================================ */
+
+@media (max-width: 1380px) {
+
+    body {
+        min-width: 1050px;
+        font-size: 14px;
+    }
+
+    .app-shell {
+        width: calc(100% - 28px);
+    }
+
+    .status-item {
+        padding-left: 11px;
+        padding-right: 11px;
+    }
+
+    .overview-panel {
+        grid-template-columns: 55px 1fr 1.5fr;
+    }
+
+    .digital-twin-grid {
+        gap: 9px;
+    }
+
+    .stage-body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .health-row {
+        grid-template-columns:
+            minmax(180px, 1.5fr)
+            90px
+            86px
+            86px
+            86px
+            85px;
+    }
+
+    .demo-console {
+        width: calc(100% - 28px);
+        min-width: 1020px;
+    }
+
+    .btn {
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 7px;
+    }
+}
+
+
+/* ============================================================
+   PRINT / DOCUMENTATION CAPTURE
+   ============================================================ */
+
+@media print {
+
+    body {
+        min-width: 0;
+        background: #fff;
+        color: #111;
+    }
+
+    .demo-console,
+    .safe-overlay,
+    .toast {
+        display: none !important;
+    }
+
+    .app-shell {
+        width: 100%;
+        padding-bottom: 0;
+    }
+
+    .panel,
+    .status-strip {
+        break-inside: avoid;
+        box-shadow: none;
+    }
+}
+/* ============================================================
+   BAILEY-RT NORMAL INSPECTION — STRONG VISUAL DEMO
+   Uses existing JavaScript states only
+   ============================================================ */
+
+
+/* ---------- PIPELINE: WAITING ---------- */
+
+.pipeline-node {
+    position: relative;
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        opacity 0.25s ease;
+}
+
+
+/* ---------- PIPELINE: CURRENT ACTIVE STAGE ---------- */
+
+.pipeline-node.active {
+    transform: translateY(-5px) scale(1.045);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(39, 197, 217, 0.24),
+            rgba(39, 197, 217, 0.08)
+        );
+
+    border-color: #27c5d9;
+
+    box-shadow:
+        0 0 0 1px rgba(39, 197, 217, 0.25),
+        0 0 24px rgba(39, 197, 217, 0.22),
+        0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.pipeline-node.active::before {
+    content: "ACTIVE";
+
+    position: absolute;
+    top: -9px;
+    right: 7px;
+
+    padding: 2px 6px;
+
+    background: #27c5d9;
+    color: #041016;
+
+    border-radius: 3px;
+
+    font-size: 6px;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+}
+
+.pipeline-node.active span {
+    color: #6eefff;
+}
+
+.pipeline-node.active strong {
+    color: #ffffff;
+}
+
+
+/* ---------- PIPELINE: COMPLETED STAGES ---------- */
+
+.pipeline-node.complete {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(66, 211, 146, 0.15),
+            rgba(66, 211, 146, 0.045)
+        );
+
+    border-color: rgba(66, 211, 146, 0.52);
+
+    box-shadow:
+        inset 3px 0 0 rgba(66, 211, 146, 0.8);
+}
+
+.pipeline-node.complete span {
+    color: #42d392;
+}
+
+.pipeline-node.complete strong {
+    color: #dff9ec;
+}
+
+.pipeline-node.complete::after {
+    content: "✓";
+
+    position: absolute;
+    top: 6px;
+    right: 7px;
+
+    color: #42d392;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+/* ---------- PIPELINE ARROWS ---------- */
+
+.pipeline-arrow {
+    transition:
+        color 0.25s ease,
+        text-shadow 0.25s ease;
+}
+
+.pipeline-node.active + .pipeline-arrow,
+.pipeline-node.complete + .pipeline-arrow {
+    color: #42d392;
+    text-shadow: 0 0 8px rgba(66, 211, 146, 0.4);
+}
+
+
+/* ============================================================
+   VISION SCANNING
+   ============================================================ */
+
+.scan-line {
+    opacity: 0;
+    animation: none;
+    transition: opacity 0.2s ease;
+}
+
+.scan-line.running {
+    opacity: 1;
+
+    background: #27c5d9;
+
+    box-shadow:
+        0 0 7px #27c5d9,
+        0 0 15px rgba(39, 197, 217, 0.65);
+
+    animation: baileyVisionScan 0.9s linear infinite alternate;
+}
+
+@keyframes baileyVisionScan {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(64px);
+    }
+}
+
+.inspection-region:has(.scan-line.running) {
+    border-color: #27c5d9;
+
+    box-shadow:
+        inset 0 0 22px rgba(39, 197, 217, 0.09),
+        0 0 16px rgba(39, 197, 217, 0.09);
+}
+
+
+/* ============================================================
+   VISION RESULT
+   ============================================================ */
+
+#vision-result {
+    min-width: 70px;
+
+    padding: 4px 8px;
+
+    text-align: center;
+
+    border-radius: 4px;
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+#vision-result:not(:empty) {
+    font-weight: 900;
+}
+
+
+/* ============================================================
+   QNX MODULE HIGHLIGHT
+   ============================================================ */
+
+.qnx-module {
+    position: relative;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.qnx-module.active {
+    transform: scale(1.055);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(39, 197, 217, 0.26),
+            rgba(39, 197, 217, 0.08)
+        ) !important;
+
+    border-color: #27c5d9 !important;
+
+    box-shadow:
+        0 0 0 1px rgba(39, 197, 217, 0.22),
+        0 0 25px rgba(39, 197, 217, 0.22) !important;
+}
+
+.qnx-module.active strong {
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   ROBOT — EXISTING SOFTWARE STATES
+   ============================================================ */
+
+.robot {
+    transition:
+        transform 0.45s ease,
+        filter 0.35s ease;
+}
+
+
+/* COMPONENT_HELD */
+
+.robot.picking {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 0 10px rgba(39, 197, 217, 0.28));
+}
+
+.robot.picking .arm-one {
+    transform: rotate(-47deg);
+}
+
+.robot.picking .arm-two {
+    transform: rotate(29deg);
+}
+
+.robot.picking .robot-gripper span:first-child {
+    transform: rotate(3deg);
+}
+
+.robot.picking .robot-gripper span:last-child {
+    transform: rotate(-3deg);
+}
+
+
+/* MOVING */
+
+.robot.moving {
+    transform: translateX(13px) translateY(-4px);
+
+    filter:
+        drop-shadow(0 0 10px rgba(39, 197, 217, 0.38));
+}
+
+.robot.moving .arm-one {
+    transform: rotate(-36deg);
+}
+
+.robot.moving .arm-two {
+    transform: rotate(7deg);
+}
+
+
+/* AT_DESTINATION */
+
+.robot.placing {
+    transform: translateX(20px) translateY(1px);
+
+    filter:
+        drop-shadow(0 0 11px rgba(66, 211, 146, 0.35));
+}
+
+.robot.placing .arm-one {
+    transform: rotate(-28deg);
+}
+
+.robot.placing .arm-two {
+    transform: rotate(31deg);
+}
+
+.robot.placing .robot-gripper span:first-child {
+    transform: rotate(15deg);
+}
+
+.robot.placing .robot-gripper span:last-child {
+    transform: rotate(-15deg);
+}
+
+
+/* STOPPED */
+
+.robot.stopped {
+    filter:
+        grayscale(0.35)
+        drop-shadow(0 0 12px rgba(255, 93, 104, 0.38));
+}
+
+.robot.stopped .robot-base {
+    border-color: rgba(255, 93, 104, 0.65);
+}
+
+
+/* DEGRADED */
+
+.robot.degraded {
+    filter:
+        drop-shadow(0 0 11px rgba(242, 184, 75, 0.35));
+}
+
+
+/* ============================================================
+   CONTROLLER STATE VISIBILITY
+   ============================================================ */
+
+.controller-state {
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+#controller-state {
+    font-weight: 900;
+    letter-spacing: 0.06em;
+}
+
+
+/* ============================================================
+   WORKCELL MESSAGE — MAKE THE CURRENT ACTION OBVIOUS
+   ============================================================ */
+
+#workcell-message {
+    color: #eaf8fb;
+
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.045em;
+
+    transition:
+        color 0.25s ease,
+        text-shadow 0.25s ease;
+}
+
+.live-process {
+    min-height: 52px;
+
+    border-color: rgba(39, 197, 217, 0.28);
+
+    box-shadow:
+        inset 3px 0 0 rgba(39, 197, 217, 0.65);
+}
+
+/* ============================================================
+   BAILEY-RT SELF-DIAGNOSIS — LIVE MONITORING VISUALIZATION
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   AFFECTED HEALTH DOMAIN
+   ------------------------------------------------------------ */
+
+.health-row.diagnostic-focus {
+    position: relative;
+    z-index: 5;
+
+    transform: scale(1.018);
+
+    border-left: 4px solid var(--cyan);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(39, 197, 217, 0.18),
+            rgba(39, 197, 217, 0.04)
+        );
+
+    box-shadow:
+        0 0 0 1px rgba(39, 197, 217, 0.25),
+        0 0 28px rgba(39, 197, 217, 0.18);
+
+    animation: baileyMonitorFocus 0.75s ease-in-out infinite alternate;
+}
+
+.health-row.diagnostic-focus::after {
+    content: "MONITORING";
+
+    position: absolute;
+    top: 5px;
+    right: 7px;
+
+    padding: 3px 7px;
+
+    background: var(--cyan);
+    color: #031016;
+
+    border-radius: 3px;
+
+    font-size: 6px;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+}
+
+@keyframes baileyMonitorFocus {
+
+    from {
+        box-shadow:
+            0 0 0 1px rgba(39, 197, 217, 0.20),
+            0 0 12px rgba(39, 197, 217, 0.08);
+    }
+
+    to {
+        box-shadow:
+            0 0 0 1px rgba(39, 197, 217, 0.45),
+            0 0 30px rgba(39, 197, 217, 0.28);
+    }
+}
+
+
+/* ------------------------------------------------------------
+   DIAGNOSTIC DECISION PATH
+   Health Engine -> Fault Manager -> Safety Manager -> Response
+   ------------------------------------------------------------ */
+
+.decision-node.diagnostic-pulse {
+    position: relative;
+    z-index: 6;
+
+    transform: translateX(7px) scale(1.035);
+
+    border-color: var(--cyan) !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(39, 197, 217, 0.28),
+            rgba(39, 197, 217, 0.08)
+        ) !important;
+
+    box-shadow:
+        0 0 0 1px rgba(39, 197, 217, 0.25),
+        0 0 28px rgba(39, 197, 217, 0.25);
+
+    animation: baileyDecisionPulse 0.65s ease-in-out infinite alternate;
+}
+
+.decision-node.diagnostic-pulse::after {
+    content: "PROCESSING";
+
+    position: absolute;
+    top: 5px;
+    right: 7px;
+
+    color: var(--cyan);
+
+    font-size: 6px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+.decision-node.diagnostic-pulse > span {
+    color: #ffffff !important;
+    border-color: var(--cyan) !important;
+
+    background: rgba(39, 197, 217, 0.18);
+}
+
+.decision-node.diagnostic-pulse strong {
+    color: #ffffff;
+}
+
+@keyframes baileyDecisionPulse {
+
+    from {
+        box-shadow:
+            0 0 8px rgba(39, 197, 217, 0.10);
+    }
+
+    to {
+        box-shadow:
+            0 0 30px rgba(39, 197, 217, 0.35);
+    }
+}
+
+
+/* ------------------------------------------------------------
+   FINAL DEGRADED DECISION
+   ------------------------------------------------------------ */
+
+.decision-node.degraded {
+    border-color: rgba(242, 184, 75, 0.72) !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(242, 184, 75, 0.20),
+            rgba(242, 184, 75, 0.05)
+        ) !important;
+
+    box-shadow:
+        inset 3px 0 0 var(--amber);
+}
+
+.decision-node.degraded > span {
+    color: var(--amber);
+    border-color: rgba(242, 184, 75, 0.65);
+}
+
+.decision-node.degraded strong {
+    color: #ffe3a6;
+}
+
+
+/* ------------------------------------------------------------
+   FINAL CRITICAL / SAFE MODE DECISION
+   ------------------------------------------------------------ */
+
+.decision-node.critical {
+    border-color: rgba(255, 93, 104, 0.75) !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 93, 104, 0.21),
+            rgba(255, 93, 104, 0.05)
+        ) !important;
+
+    box-shadow:
+        inset 3px 0 0 var(--red),
+        0 0 15px rgba(255, 93, 104, 0.08);
+}
+
+.decision-node.critical > span {
+    color: var(--red);
+    border-color: rgba(255, 93, 104, 0.68);
+}
+
+.decision-node.critical strong {
+    color: #ffc1c5;
+}
+
+
+/* ------------------------------------------------------------
+   HEALTH ROW FINAL STATES — STRONGER PRESENTATION VISIBILITY
+   ------------------------------------------------------------ */
+
+.health-row.degraded {
+    border-left: 4px solid var(--amber);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(242, 184, 75, 0.13),
+            rgba(6, 16, 24, 0.50) 45%
+        );
+}
+
+.health-row.fault {
+    border-left: 4px solid var(--red);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 93, 104, 0.14),
+            rgba(6, 16, 24, 0.50) 45%
+        );
+}
+
+
+/* ------------------------------------------------------------
+   DIAGNOSTIC SCORE / METER VISIBILITY
+   ------------------------------------------------------------ */
+
+.health-row.diagnostic-focus .health-meter {
+    height: 8px;
+
+    box-shadow:
+        0 0 8px rgba(39, 197, 217, 0.16);
+}
+
+.health-row.fault .health-meter {
+    box-shadow:
+        0 0 8px rgba(255, 93, 104, 0.15);
+}
+
+.health-row.degraded .health-meter {
+    box-shadow:
+        0 0 8px rgba(242, 184, 75, 0.15);
+}
+
+
+/* ------------------------------------------------------------
+   MAKE HEALTH STATUS BADGES MORE OBVIOUS
+   ------------------------------------------------------------ */
+
+.health-row.fault .health-status-cell span {
+    font-weight: 900;
+
+    box-shadow:
+        0 0 10px rgba(255, 93, 104, 0.12);
+}
+
+.health-row.degraded .health-status-cell span {
+    font-weight: 900;
+
+    box-shadow:
+        0 0 10px rgba(242, 184, 75, 0.12);
+}
+
+
+/* ------------------------------------------------------------
+   WORKCELL DIAGNOSTIC MESSAGE
+   ------------------------------------------------------------ */
+
+.diagnostic-panel + .live-process,
+#workcell-message {
+    transition:
+        color 0.25s ease,
+        text-shadow 0.25s ease;
+}
+
+
+/* ------------------------------------------------------------
+   DECISION FLOW CONNECTIVITY
+   ------------------------------------------------------------ */
+
+.decision-flow {
+    position: relative;
+}
+
+.decision-node {
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* ------------------------------------------------------------
+   SAFE MODE — MAKE THE FINAL SYSTEM CONDITION UNAMBIGUOUS
+   ------------------------------------------------------------ */
+
+body.safe-mode .system-health-box {
+    border-color: rgba(255, 93, 104, 0.55);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 93, 104, 0.14),
+            rgba(12, 23, 34, 0.95)
+        );
+}
+
+body.safe-mode .status-strip {
+    border-color: rgba(255, 93, 104, 0.35);
+}
+
+
+/* ------------------------------------------------------------
+   DEGRADED MODE — DISTINCT FROM CRITICAL SAFE MODE
+   ------------------------------------------------------------ */
+
+body.degraded .system-health-box {
+    border-color: rgba(242, 184, 75, 0.50);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(242, 184, 75, 0.12),
+            rgba(12, 23, 34, 0.95)
+        );
+}
+
+body.degraded .health-dot {
+    background: var(--amber);
+
+    box-shadow:
+        0 0 0 5px rgba(242, 184, 75, 0.10);
+}
+
+/* ============================================================
+   BAILEY-RT — HEALTH METER VISIBILITY FIX
+   ============================================================ */
+
+.health-row .health-meter {
+    height: 10px !important;
+    padding: 0 !important;
+    margin: 0 12px !important;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+
+    box-shadow:
+        inset 0 0 6px rgba(0, 0, 0, 0.35);
+}
+
+.health-row .health-meter > div {
+    height: 100% !important;
+    min-width: 4px;
+
+    border-radius: 10px;
+
+    transition:
+        width 0.45s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+/* HEALTHY */
+
+.health-row.healthy .health-meter > div {
+    background: var(--green) !important;
+
+    box-shadow:
+        0 0 8px rgba(66, 211, 146, 0.45);
+}
+
+
+/* WARNING / DEGRADED */
+
+.health-row.warning .health-meter > div,
+.health-row.degraded .health-meter > div {
+    background: var(--amber) !important;
+
+    box-shadow:
+        0 0 9px rgba(242, 184, 75, 0.50);
+}
+
+
+/* FAULT / CRITICAL */
+
+.health-row.fault .health-meter > div,
+.health-row.critical .health-meter > div {
+    background: var(--red) !important;
+
+    box-shadow:
+        0 0 10px rgba(255, 93, 104, 0.55);
+}
+
+
+/* ACTIVE MONITORING */
+
+.health-row.diagnostic-focus .health-meter {
+    height: 12px !important;
+
+    border-color: rgba(39, 197, 217, 0.55);
+
+    box-shadow:
+        0 0 12px rgba(39, 197, 217, 0.22),
+        inset 0 0 6px rgba(0, 0, 0, 0.35);
+}
+/* =========================================================
+   BAILEY-RT SELF-MONITORING STATUS
+========================================================= */
+
+.self-monitor-status {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 10px 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(20, 184, 166, 0.08),
+            rgba(34, 211, 238, 0.04)
+        );
+
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 8px;
+
+    box-shadow:
+        inset 0 0 18px rgba(34, 211, 238, 0.025);
+}
+
+
+/* LEFT SIDE — ACTIVE STATE */
+
+.self-monitor-primary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding-right: 16px;
+
+    border-right:
+        1px solid rgba(255, 255, 255, 0.09);
+}
+
+
+.self-monitor-primary > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+
+.self-monitor-primary small {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+}
+
+
+.self-monitor-primary strong {
+    font-size: 13px;
+    letter-spacing: 1.1px;
+    color: var(--green);
+}
+
+
+/* LIVE MONITORING INDICATOR */
+
+.self-monitor-dot {
+    position: relative;
+
+    width: 10px;
+    height: 10px;
+
+    flex: 0 0 10px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 8px rgba(34, 197, 94, 0.65);
+}
+
+
+.self-monitor-dot::after {
+    content: "";
+
+    position: absolute;
+    inset: -5px;
+
+    border:
+        1px solid rgba(34, 197, 94, 0.42);
+
+    border-radius: 50%;
+
+    animation:
+        bailey-monitor-pulse 1.5s ease-out infinite;
+}
+
+
+@keyframes bailey-monitor-pulse {
+
+    0% {
+        transform: scale(0.65);
+        opacity: 0.9;
+    }
+
+    70% {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+}
+
+
+/* RIGHT SIDE — MONITORING INFORMATION */
+
+.self-monitor-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    min-width: 0;
+}
+
+
+.self-monitor-details > span {
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+
+    color: var(--cyan);
+}
+
+
+.self-monitor-details small {
+    font-size: 9px;
+    line-height: 1.35;
+
+    letter-spacing: 0.35px;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   SELF-MONITORING — BACKEND CONNECTION STATE
+========================================================= */
+
+body.self-monitoring-active .self-monitor-status {
+    border-color:
+        rgba(34, 211, 238, 0.32);
+}
+
+
+body.self-monitoring-active .self-monitor-dot {
+    background: var(--green);
+
+    box-shadow:
+        0 0 10px rgba(34, 197, 94, 0.72);
+}
+
+
+/* =========================================================
+   SELF-MONITORING — FAULT PRESENT
+========================================================= */
+
+body.self-monitoring-fault .self-monitor-status {
+    border-color:
+        rgba(239, 68, 68, 0.38);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(239, 68, 68, 0.07),
+            rgba(34, 211, 238, 0.025)
+        );
+}
+
+
+/*
+   The monitoring indicator remains green during a fault.
+
+   Green = monitoring system is active.
+   Fault severity is shown separately by the domain,
+   Fault Manager, Safety Manager and system status.
+
+   This prevents "monitor active" from being confused
+   with "system healthy".
+*/
+
+body.self-monitoring-fault .self-monitor-dot {
+    background: var(--green);
+}
+
+
+/* =========================================================
+   RESPONSIVE SELF-MONITOR STATUS
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .self-monitor-status {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+}
+
+
+@media (max-width: 620px) {
+
+    .self-monitor-status {
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .self-monitor-primary {
+        width: 100%;
+
+        padding-right: 0;
+        padding-bottom: 8px;
+
+        border-right: 0;
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.08);
+    }
+
+}
